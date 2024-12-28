@@ -1,11 +1,11 @@
-import { Button } from "@/components/shadcn/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/shadcn/card";
+} from "@/components/ui/card";
 
 export function SidebarUpgradeIndicator() {
   return (

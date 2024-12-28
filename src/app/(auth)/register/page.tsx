@@ -1,7 +1,7 @@
 "use client";
 
 import { register } from "@/actions/auth/register";
-import { Button } from "@/components/shadcn/button";
+import { Button } from "@/components/ui/button";
 import React from "react";
 
 type Props = {};

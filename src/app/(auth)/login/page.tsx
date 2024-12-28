@@ -1,6 +1,6 @@
 "use client";
 import { login } from "@/actions/auth/login";
-import { Button } from "@/components/shadcn/button";
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { signIn } from "next-auth/react";
 import { DEFUALT_LOGIN_REDIRECT } from "@/routes";
