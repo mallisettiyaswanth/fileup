@@ -25,44 +25,60 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Icons } from "@/lib/constants";
 
 const data = {
   navMain: [
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: SquareTerminal,
+      icon: Icons.dashboard.outline,
+      filledIcon: Icons.dashboard.filled,
       isActive: true,
     },
     {
-      title: "Recent filed",
+      title: "Recent files",
       url: "/recents",
-      icon: Bot,
+      icon: Icons.clock.outline,
+      filledIcon: Icons.clock.filled,
     },
     {
       title: "Documents",
       url: "/documents",
-      icon: BookOpen,
+      icon: Icons.document.outline,
+      filledIcon: Icons.document.filled,
     },
     {
       title: "Images",
       url: "/images",
-      icon: Settings2,
+      icon: Icons.image.outline,
+      filledIcon: Icons.image.filled,
     },
     {
       title: "Videos",
       url: "/videos",
-      icon: Settings2,
+      icon: Icons.video.outline,
+      filledIcon: Icons.video.filled,
     },
     {
       title: "Audios",
       url: "/audios",
-      icon: Settings2,
+      icon: Icons.audio.outline,
+      filledIcon: Icons.audio.filled,
     },
     {
       title: "Trash",
       url: "/trash",
-      icon: Settings2,
+      icon: Icons.trash.outline,
+      filledIcon: Icons.trash.filled,
+    },
+  ],
+  footer: [
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Icons.settings.outline,
+      filledIcon: Icons.settings.filled,
     },
   ],
 };
@@ -72,9 +88,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader></SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} lable />
       </SidebarContent>
-      <SidebarFooter></SidebarFooter>
+      <SidebarFooter className="p-0">
+        <NavMain items={data.footer} />
+      </SidebarFooter>
     </Sidebar>
   );
 }

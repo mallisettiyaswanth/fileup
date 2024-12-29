@@ -17,14 +17,19 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { IconType } from "react-icons/lib";
+import { usePathname } from "next/navigation";
 
 export function NavMain({
   items,
+  lable,
 }: {
+  lable?: boolean;
   items: {
     title: string;
     url: string;
-    icon?: LucideIcon;
+    icon: LucideIcon | IconType;
+    filledIcon: LucideIcon | IconType;
     isActive?: boolean;
     items?: {
       title: string;
@@ -32,15 +37,23 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const pathName = usePathname();
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      {lable && <SidebarGroupLabel>Menu</SidebarGroupLabel>}
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip={item.title}>
-              {item.icon && <item.icon />}
-              <span>{item.title}</span>
+        {items.map((item, index) => (
+          <SidebarMenuItem key={index}>
+            <SidebarMenuButton
+              tooltip={item.title}
+              className={`${
+                pathName === item.url
+                  ? "bg-primary text-white hover:bg-primary/75 hover:text-white"
+                  : ""
+              }`}
+            >
+              {pathName === item.url ? <item.filledIcon /> : <item.icon />}
+              <a href={item.url}>{item.title}</a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
