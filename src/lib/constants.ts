@@ -17,6 +17,15 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { RiNotificationFill } from "react-icons/ri";
 import { RiNotificationLine } from "react-icons/ri";
+import { IoCloudUploadOutline } from "react-icons/io5";
+import { IoCloudUploadSharp } from "react-icons/io5";
+import { IoMdAdd } from "react-icons/io";
+import { BsFillFilterSquareFill } from "react-icons/bs";
+import { BsFilterSquare } from "react-icons/bs";
+import { LuMoveRight } from "react-icons/lu";
+import { LuDot } from "react-icons/lu";
+import { FaListUl } from "react-icons/fa";
+import { TiArrowUnsorted } from "react-icons/ti";
 
 export const DOMAIN: string = "http://localhost:3000";
 
@@ -66,5 +75,29 @@ export const Icons: Record<
   notifications: {
     outline: RiNotificationLine,
     filled: RiNotificationFill,
+  },
+  upload: {
+    outline: IoCloudUploadOutline,
+    filled: IoCloudUploadSharp,
+  },
+  create: {
+    outline: IoMdAdd,
+    filled: IoMdAdd,
+  },
+  filters: {
+    outline: TiArrowUnsorted,
+    filled: TiArrowUnsorted,
+  },
+  arrow_right: {
+    outline: LuMoveRight,
+    filled: LuMoveRight,
+  },
+  dot: {
+    outline: LuDot,
+    filled: LuDot,
+  },
+  list: {
+    outline: FaListUl,
+    filled: FaListUl,
   },
 };

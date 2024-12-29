@@ -94,8 +94,6 @@ body {
   }
 }
 
-
-
 .backdrop--blur__safari {
   -webkit-backdrop-filter: blur(5px);
 }
@@ -158,11 +156,7 @@ body {
 }
 
 .radial--double--gradient--cards--top {
-  background-image: radial-gradient(
-    at top left,
-    #bc362e 10%,
-    transparent 70%
-  );
+  background-image: radial-gradient(at top left, #bc362e 10%, transparent 70%);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
