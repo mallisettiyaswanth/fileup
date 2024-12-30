@@ -1,34 +1,46 @@
-import DashboardChart from "@/components/global/dashboard-all-files-chart";
-import DashboardRecents from "@/components/global/dashboard-recents";
-import { Button } from "@/components/ui/button";
+import SmallDoc from "@/components/global/small-doc";
 import { Card } from "@/components/ui/card";
-import { Icons } from "@/lib/constants";
-import React, { FC } from "react";
+import React from "react";
 
 type Props = {};
 
-const FilesDashboard: FC = (props: Props) => {
+const temp = [
+  {
+    type: "document",
+    name: "Mallisetti_Yaswanth.docx",
+    size: "40 GB",
+    category: "Document",
+  },
+  {
+    type: "image",
+    name: "Mallisetti_Yaswanth.docx",
+    size: "100 MB",
+    category: "Image",
+  },
+  {
+    type: "video",
+    name: "Mallisetti_Yaswanth.docx",
+    size: "5 TB",
+    category: "Video",
+  },
+];
+
+const Files = (props: Props) => {
   return (
-    <div className="flex-[3] flex flex-col gap-3">
-      <DashboardRecents />
-      <Card className="flex-1 gap-3 flex flex-col">
-        <div className="w-full flex items-center justify-between">
-          <h1 className="text-lg">All files</h1>
-          <div className="flex gap-3">
-            <Button variant="outline" className="text-sm shadow-sm">
-              <Icons.filters.outline className="h-4 w-4" />
-              Filters
-            </Button>
-            <Button variant="outline" className="text-sm shadow-sm">
-              <Icons.list.outline className="h-4 w-4" />
-              List
-            </Button>
-          </div>
-        </div>
-        <DashboardChart />
-      </Card>
-    </div>
+    <Card className="flex-[2] border bg-white flex flex-col gap-3">
+      <div className="w-full flex flex-col">
+        <h1 className="text-lg">Recent uploads</h1>
+        <p className="text-sm text-gray-500">
+          last 3 uploads are displayed here.
+        </p>
+      </div>
+      <div className="w-full gap-2 flex">
+        {temp.map((doc, index: number) => {
+          return <SmallDoc data={doc} key={index} />;
+        })}
+      </div>
+    </Card>
   );
 };
 
-export default FilesDashboard;
+export default Files;

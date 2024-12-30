@@ -1,22 +1,28 @@
-import { Card } from "@/components/ui/card";
+import CreateButton from "@/components/global/create-button";
+import Header from "@/components/global/header";
+import UploadButton from "@/components/global/upload-button";
+import { Icons } from "@/lib/constants";
 import React from "react";
 
 type Props = {
-  children: React.ReactNode;
+  overviewstorage: React.ReactNode;
   files: React.ReactNode;
-  stats: React.ReactNode;
+  uploadarea: React.ReactNode;
 };
 
-const Layout = ({ children, files, stats }: Props) => {
+const Layout = ({ overviewstorage, files, uploadarea }: Props) => {
   return (
     <div className="h-full w-full flex flex-col gap-10 p-3">
-      {children}
-      <div className="flex gap-3 w-full h-full">
-        {files}
-        <div className="flex-1 h-full flex flex-col gap-3">
-          {stats}
-          <Card className="flex-1">This is add</Card>
+      <Header title="Storage overview" icon={Icons.dashboard.outline}>
+        <div className="flex gap-3">
+          <UploadButton />
+          <CreateButton />
         </div>
+      </Header>
+      {overviewstorage}
+      <div className="flex gap-3">
+        {files}
+        {uploadarea}
       </div>
     </div>
   );

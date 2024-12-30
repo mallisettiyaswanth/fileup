@@ -20,12 +20,21 @@ import { RiNotificationLine } from "react-icons/ri";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { IoCloudUploadSharp } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
-import { BsFillFilterSquareFill } from "react-icons/bs";
-import { BsFilterSquare } from "react-icons/bs";
 import { LuMoveRight } from "react-icons/lu";
 import { LuDot } from "react-icons/lu";
 import { FaListUl } from "react-icons/fa";
 import { TiArrowUnsorted } from "react-icons/ti";
+import { IoMdCloudOutline } from "react-icons/io";
+import { IoCloudOutline } from "react-icons/io5";
+import { AiOutlineStar } from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
+import { BsFillFolderSymlinkFill } from "react-icons/bs";
+import { BsFolderSymlink } from "react-icons/bs";
+import { GoFileSymlinkFile } from "react-icons/go";
+import { BsDatabase } from "react-icons/bs";
+import { BsDatabaseFill } from "react-icons/bs";
+import { TbDeviceUnknown } from "react-icons/tb";
+import { TbDeviceUnknownFilled } from "react-icons/tb";
 
 export const DOMAIN: string = "http://localhost:3000";
 
@@ -84,7 +93,7 @@ export const Icons: Record<
     outline: IoMdAdd,
     filled: IoMdAdd,
   },
-  filters: {
+  filter: {
     outline: TiArrowUnsorted,
     filled: TiArrowUnsorted,
   },
@@ -99,5 +108,29 @@ export const Icons: Record<
   list: {
     outline: FaListUl,
     filled: FaListUl,
+  },
+  cloud: {
+    outline: IoMdCloudOutline,
+    filled: IoCloudOutline,
+  },
+  star: {
+    outline: AiOutlineStar,
+    filled: AiFillStar,
+  },
+  shared_folder: {
+    outline: BsFolderSymlink,
+    filled: BsFillFolderSymlinkFill,
+  },
+  shared_file: {
+    outline: GoFileSymlinkFile,
+    filled: GoFileSymlinkFile,
+  },
+  database: {
+    outline: BsDatabase,
+    filled: BsDatabaseFill,
+  },
+  other: {
+    outline: TbDeviceUnknown,
+    filled: TbDeviceUnknownFilled,
   },
 };
