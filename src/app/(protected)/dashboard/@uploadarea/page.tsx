@@ -6,7 +6,7 @@ type Props = {};
 
 const UploadArea = (props: Props) => {
   return (
-    <Card className="flex-1">
+    <Card className="flex-1 max-h-fit">
       <ReactHookFormDemo />
     </Card>
   );
