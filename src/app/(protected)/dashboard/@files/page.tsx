@@ -1,7 +1,6 @@
 import SmallDoc from "@/components/global/small-doc";
 import { Card } from "@/components/ui/card";
 import React from "react";
-import { number } from "zod";
 
 type Props = {};
 
