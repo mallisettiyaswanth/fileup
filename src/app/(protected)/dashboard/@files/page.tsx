@@ -1,3 +1,4 @@
+import DemoDataTable from "@/components/global/dashboard-data-table";
 import SmallDoc from "@/components/global/small-doc";
 import { Card } from "@/components/ui/card";
 import React from "react";
@@ -38,6 +39,9 @@ const Files = (props: Props) => {
         {temp.map((doc, index: number) => {
           return <SmallDoc data={doc} key={index} />;
         })}
+      </div>
+      <div className="w-full">
+        <DemoDataTable />
       </div>
     </Card>
   );

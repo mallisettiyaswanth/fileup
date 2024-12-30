@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Icons } from "@/lib/constants";
 import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -22,8 +21,6 @@ type Props = {
 
 const DashboardStorageType = ({ fileType }: Props) => {
   const Icon = fileType.icon;
-
-  console.log(`bg-[${fileType.color}]`);
 
   return (
     <Link href={fileType.url} className="flex-1">
