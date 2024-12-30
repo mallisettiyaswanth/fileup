@@ -26,6 +26,12 @@ const data = {
       isActive: true,
       items: [
         {
+          title: "Folders",
+          url: "/folders",
+          icon: Icons.folder.outline,
+          filledIcon: Icons.folder.filled,
+        },
+        {
           title: "Documents",
           url: "/documents",
           icon: Icons.document.outline,

@@ -35,6 +35,8 @@ import { BsDatabase } from "react-icons/bs";
 import { BsDatabaseFill } from "react-icons/bs";
 import { TbDeviceUnknown } from "react-icons/tb";
 import { TbDeviceUnknownFilled } from "react-icons/tb";
+import { IoFolderOpenOutline } from "react-icons/io5";
+import { IoFolderOpen } from "react-icons/io5";
 
 export const DOMAIN: string = "http://localhost:3000";
 
@@ -132,5 +134,9 @@ export const Icons: Record<
   other: {
     outline: TbDeviceUnknown,
     filled: TbDeviceUnknownFilled,
+  },
+  folder: {
+    outline: IoFolderOpenOutline,
+    filled: IoFolderOpen,
   },
 };
