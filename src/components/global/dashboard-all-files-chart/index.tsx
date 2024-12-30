@@ -40,7 +40,7 @@ const chartConfig = {
     color: "hsl(35, 85%, 65%)",
     width: 100,
   },
-  zip: {
+  other: {
     label: "ZIP",
     color: "hsl(0, 85%, 60%)",
     width: 100,
@@ -53,7 +53,7 @@ const chartConfig = {
 
 export default function DashboardChart() {
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 hidden lg:inline-block">
       <ChartContainer config={chartConfig} className="h-[60px] w-full">
         <BarChart
           layout="vertical"
@@ -64,8 +64,10 @@ export default function DashboardChart() {
         >
           <YAxis type="category" dataKey="category" hide />
           <XAxis type="number" hide />
-          {/* <ChartTooltip cursor={false} content={<ChartTooltipContent />} /> */}
-          <Legend />
+          {/* <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent className="z-10" />}
+          /> */}
 
           <Bar
             background={{ fill: "#eee" }}
@@ -121,7 +123,7 @@ export default function DashboardChart() {
           />
 
           <Bar
-            dataKey="zip"
+            dataKey="other"
             stackId="a"
             fill="var(--color-zip)"
             radius={[4, 4, 4, 4]}
