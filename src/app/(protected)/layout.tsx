@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center gap-2 px-4 border">
+        <header className="flex h-14 shrink-0 items-center gap-2 px-4 border sticky top-0 backdrop-blur-sm">
           <SidebarTrigger className="-ml-1" />
           <div className="flex-1 flex items-center justify-between">
             <div className="border rounded-lg flex items-center px-3 hover:border-2 focus-within:border-2 hover:border-primary focus-within:border-primary transition-colors shadow-sm bg-white">
