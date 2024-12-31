@@ -20,6 +20,8 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
+  storageUsed       BigInt  @default(0)
+  storageLimit      BigInt  @default(10000000000)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -38,7 +40,11 @@ model User {
   createdAt             DateTime               @default(now())
   isTwoFactorEnabled    Boolean                @default(false)
   TwoFactorConfirmation TwoFactorConfirmation?
-
+  File                  File?
+  Favourites            Favourites?
+  Trash                 Trash?
+  Share                 Share[]
+  Folder                Folder[]
 
   @@map("users")
 }
@@ -80,4 +86,81 @@ model TwoFactorConfirmation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("twofactortokens")
+}
+
+enum FILE_TYPE {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  AUDIO
+  OTHER
+}
+
+model File {
+  id        String    @id @default(cuid())
+  name      String
+  type      FILE_TYPE
+  size      Float
+  createdAt DateTime
+
+  userId     String      @unique
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Favourites Favourites?
+  Trash      Trash?
+  Share      Share[]
+  Folder     Folder?     @relation(fields: [folderId], references: [id])
+  folderId   String?
+
+  @@map("files")
+}
+
+model Favourites {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  fileId String @unique
+  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("favourites")
+}
+
+model Trash {
+  id String @id @default(cuid())
+
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  fileId String @unique
+  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+}
+
+enum PERMISSION {
+  READ
+  WRITE
+}
+
+model Share {
+  id         String     @id @default(cuid())
+  fileId     String
+  file       File       @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  sharedBy   String
+  user       User       @relation(fields: [sharedBy], references: [id])
+  sharedWith String?
+  isPublic   Boolean    @default(false)
+  permission PERMISSION
+  createdAt  DateTime   @default(now())
+}
+
+model Folder {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  parentId  String? 
+  parent    Folder?  @relation("FolderToFolder", fields: [parentId], references: [id])
+  children  Folder[] @relation("FolderToFolder")
+  files     File[]
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
