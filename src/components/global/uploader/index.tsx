@@ -20,6 +20,7 @@ import {
 import { FileUploader } from "@/components/file-uploader";
 
 import { UploadedFilesCard } from "./uploaded-files-card";
+import { uploadFile } from "@/actions/aws/upload";
 
 const schema = z.object({
   images: z.array(z.instanceof(File)),
@@ -40,21 +41,38 @@ export function ReactHookFormDemo() {
     },
   });
 
-  function onSubmit(input: Schema) {
+  function onSubmit(values: Schema) {
     setLoading(true);
 
-    toast.promise(onUpload(input.images), {
-      loading: "Uploading images...",
-      success: () => {
-        form.reset();
-        setLoading(false);
-        return "Images uploaded";
-      },
-      error: (err) => {
-        setLoading(false);
-        return getErrorMessage(err);
-      },
+    const serializedFiles = values.images.map(async (file) => {
+      const arrayBuffer = await file.arrayBuffer();
+      return {
+        name: file.name,
+        type: file.type,
+        content: Array.from(new Uint8Array(arrayBuffer)),
+      };
     });
+
+    Promise.all(serializedFiles)
+      .then((files) => {
+        toast.promise(uploadFile({ images: files }), {
+          loading: "Uploading images...",
+          success: () => {
+            form.reset();
+            setLoading(false);
+            return "Images uploaded";
+          },
+          error: (err) => {
+            setLoading(false);
+            return getErrorMessage(err);
+          },
+        });
+      })
+      .catch((err) => {
+        console.error("File serialization failed:", err);
+        toast.error("Failed to serialize files");
+        setLoading(false);
+      });
   }
 
   return (
@@ -77,8 +95,6 @@ export function ReactHookFormDemo() {
                     maxFileCount={4}
                     maxSize={4 * 1024 * 1024}
                     progresses={progresses}
-                    // pass the onUpload function here for direct upload
-                    // onUpload={uploadFiles}
                     disabled={isUploading}
                   />
                 </FormControl>
