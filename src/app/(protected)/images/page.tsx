@@ -1,17 +1,23 @@
-"use client";
-
-import { logout } from "@/actions/auth/logout";
-import { Button } from "@/components/ui/button";
+import { getFiles } from "@/actions/file/getFiles";
 import React from "react";
 
 type Props = {};
 
-const Dashboard = (props: Props) => {
+const Images = async (props: Props) => {
+  const files = await getFiles("image");
+  console.log(files);
   return (
     <div>
-      <Button onClick={() => logout()}>Logout</Button>
+      {files.data.map((file, index: number) => {
+        return (
+          <div key={index} className="">
+            {file.name}
+          </div>
+        );
+      })}
+      These are the files
     </div>
   );
 };
 
-export default Dashboard;
+export default Images;
