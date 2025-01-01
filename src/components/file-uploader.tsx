@@ -16,79 +16,14 @@ import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Value of the uploader.
-   * @type File[]
-   * @default undefined
-   * @example value={files}
-   */
   value?: File[];
-
-  /**
-   * Function to be called when the value changes.
-   * @type (files: File[]) => void
-   * @default undefined
-   * @example onValueChange={(files) => setFiles(files)}
-   */
   onValueChange?: (files: File[]) => void;
-
-  /**
-   * Function to be called when files are uploaded.
-   * @type (files: File[]) => Promise<void>
-   * @default undefined
-   * @example onUpload={(files) => uploadFiles(files)}
-   */
   onUpload?: (files: File[]) => Promise<void>;
-
-  /**
-   * Progress of the uploaded files.
-   * @type Record<string, number> | undefined
-   * @default undefined
-   * @example progresses={{ "file1.png": 50 }}
-   */
   progresses?: Record<string, number>;
-
-  /**
-   * Accepted file types for the uploader.
-   * @type { [key: string]: string[]}
-   * @default
-   * ```ts
-   * { "image/*": [] }
-   * ```
-   * @example accept={["image/png", "image/jpeg"]}
-   */
   accept?: DropzoneProps["accept"];
-
-  /**
-   * Maximum file size for the uploader.
-   * @type number | undefined
-   * @default 1024 * 1024 * 2 // 2MB
-   * @example maxSize={1024 * 1024 * 2} // 2MB
-   */
   maxSize?: DropzoneProps["maxSize"];
-
-  /**
-   * Maximum number of files for the uploader.
-   * @type number | undefined
-   * @default 1
-   * @example maxFileCount={4}
-   */
   maxFileCount?: DropzoneProps["maxFiles"];
-
-  /**
-   * Whether the uploader should accept multiple files.
-   * @type boolean
-   * @default false
-   * @example multiple
-   */
   multiple?: boolean;
-
-  /**
-   * Whether the uploader is disabled.
-   * @type boolean
-   * @default false
-   * @example disabled
-   */
   disabled?: boolean;
 }
 
@@ -99,7 +34,18 @@ export function FileUploader(props: FileUploaderProps) {
     onUpload,
     progresses,
     accept = {
-      "image/*": [],
+      "image/*": ["jpg", "jpeg", "png", "gif", "webp"],
+      "video/*": ["mp4", "mpeg", "ogg", "webm"],
+      "application/*": [
+        "pdf",
+        "msword",
+        "vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "vnd.ms-excel",
+        "vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "vnd.ms-powerpoint",
+        "vnd.openxmlformats-officedocument.presentationml.presentation",
+      ],
+      "audio/*": ["mpeg", "wav", "ogg", "webm"],
     },
     maxSize = 1024 * 1024 * 2,
     maxFileCount = 1,
@@ -232,15 +178,6 @@ export function FileUploader(props: FileUploaderProps) {
                 <div className="flex flex-col gap-px">
                   <p className="font-medium text-muted-foreground">
                     Drag {`'n'`} drop files here, or click to select files
-                  </p>
-                  <p className="text-sm text-muted-foreground/70">
-                    You can upload
-                    {maxFileCount > 1
-                      ? ` ${
-                          maxFileCount === Infinity ? "multiple" : maxFileCount
-                        }
-                      files (up to ${formatBytes(maxSize)} each)`
-                      : ` a file with ${formatBytes(maxSize)}`}
                   </p>
                 </div>
               </div>

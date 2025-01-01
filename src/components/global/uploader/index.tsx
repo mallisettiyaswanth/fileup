@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
 import { getErrorMessage } from "@/lib/handle-error";
 import { useUploadFile } from "@/hooks/use-upload-file";
 import { Button } from "@/components/ui/button";
@@ -18,9 +17,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FileUploader } from "@/components/file-uploader";
-
 import { UploadedFilesCard } from "./uploaded-files-card";
-import { uploadFile } from "@/actions/aws/upload";
+import { addFile } from "@/actions/file/upload";
 
 const schema = z.object({
   images: z.array(z.instanceof(File)),
@@ -43,7 +41,6 @@ export function ReactHookFormDemo() {
 
   function onSubmit(values: Schema) {
     setLoading(true);
-
     const serializedFiles = values.images.map(async (file) => {
       const arrayBuffer = await file.arrayBuffer();
       return {
@@ -55,12 +52,12 @@ export function ReactHookFormDemo() {
 
     Promise.all(serializedFiles)
       .then((files) => {
-        toast.promise(uploadFile({ images: files }), {
-          loading: "Uploading images...",
+        toast.promise(addFile({ images: files }), {
+          loading: "Uploading files...",
           success: () => {
             form.reset();
             setLoading(false);
-            return "Images uploaded";
+            return "Files uploaded";
           },
           error: (err) => {
             setLoading(false);
@@ -87,13 +84,13 @@ export function ReactHookFormDemo() {
           render={({ field }) => (
             <div className="space-y-6">
               <FormItem className="w-full">
-                <FormLabel>Images</FormLabel>
+                <FormLabel>Files</FormLabel>
                 <FormControl>
                   <FileUploader
                     value={field.value}
                     onValueChange={field.onChange}
-                    maxFileCount={4}
-                    maxSize={4 * 1024 * 1024}
+                    maxFileCount={10}
+                    maxSize={1024 * 1024 * 1024}
                     progresses={progresses}
                     disabled={isUploading}
                   />
