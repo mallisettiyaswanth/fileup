@@ -39,11 +39,46 @@ import { IoFolderOpenOutline } from "react-icons/io5";
 import { IoFolderOpen } from "react-icons/io5";
 import { BiSortAlt2 } from "react-icons/bi";
 import { MdMoreHoriz } from "react-icons/md";
+import { IoCloudDownload } from "react-icons/io5";
+import { IoCloudDownloadOutline } from "react-icons/io5";
+import { MdOpenInFull } from "react-icons/md";
+import { IoMdShareAlt } from "react-icons/io";
+import { RiShareForwardLine } from "react-icons/ri";
 
 export const DOMAIN: string = "http://localhost:3000";
 
+export type IconKey =
+  | "dashboard"
+  | "clock"
+  | "document"
+  | "image"
+  | "video"
+  | "audio"
+  | "trash"
+  | "settings"
+  | "search"
+  | "notifications"
+  | "upload"
+  | "create"
+  | "filter"
+  | "arrow_right"
+  | "dot"
+  | "list"
+  | "cloud"
+  | "star"
+  | "shared_folder"
+  | "shared_file"
+  | "database"
+  | "other"
+  | "folder"
+  | "sort"
+  | "more"
+  | "download"
+  | "expand"
+  | "share";
+
 export const Icons: Record<
-  string,
+  IconKey,
   {
     outline: IconType;
     filled: IconType;
@@ -148,6 +183,18 @@ export const Icons: Record<
   more: {
     outline: MdMoreHoriz,
     filled: MdMoreHoriz,
+  },
+  download: {
+    outline: IoCloudDownloadOutline,
+    filled: IoCloudDownload,
+  },
+  expand: {
+    outline: MdOpenInFull,
+    filled: MdOpenInFull,
+  },
+  share: {
+    outline: RiShareForwardLine,
+    filled: IoMdShareAlt,
   },
 };
 

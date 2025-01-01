@@ -3,6 +3,7 @@
 import SortButton from "@/components/global/buttons/filter-buttons";
 import FilterButton from "@/components/global/buttons/sort-button";
 import UploadButton from "@/components/global/buttons/upload-button";
+import CommonHeader from "@/components/global/common-header";
 import Folder from "@/components/global/file-types/folder";
 import SearchBar from "@/components/global/search-bar";
 import { Card } from "@/components/ui/card";
@@ -372,16 +373,9 @@ const folders = [
 const Dashboard = (props: Props) => {
   return (
     <div className="flex flex-col gap-10 p-5">
-      <div className="w-full flex justify-between items-center">
-        <div className="flex gap-2">
-          <UploadButton />
-          <FilterButton />
-          <SortButton />
-        </div>
-        <SearchBar placeholder="search for documents" className="rounded-xl" />
-      </div>
+      <CommonHeader />
       <div className="flex flex-col gap-3">
-        <h1>Documents</h1>
+        <h1 className="text-3xl">Documents</h1>
         <Tabs
           defaultValue="all-documents"
           className="flex gap-3 flex-col items-start"

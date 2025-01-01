@@ -18,44 +18,54 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import SearchBar from "@/components/global/search-bar";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-14 shrink-0 items-center gap-2 px-4 border sticky top-0 backdrop-blur-sm">
-          <SidebarTrigger className="-ml-1" />
-          <div className="flex-1 flex items-center justify-between">
-            <SearchBar placeholder="Search" />
-            <div className="flex gap-3">
-              <Button variant="outline" className="p-3">
-                <Icons.notifications.outline />
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <div className="flex gap-3 items-center">
-                    <Avatar>
-                      <AvatarImage src="" />
-                      <AvatarFallback>Img</AvatarFallback>
-                    </Avatar>
-                    <div>User Name</div>
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Billing</DropdownMenuItem>
-                  <DropdownMenuItem>Team</DropdownMenuItem>
-                  <DropdownMenuItem>Subscription</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+    <Suspense
+      fallback={
+        <div className="flex w-full min-h-screen items-center justify-center">
+          <Loading />
+        </div>
+      }
+    >
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-14 shrink-0 items-center gap-2 px-4 border sticky top-0 backdrop-blur-sm">
+            <SidebarTrigger className="-ml-1" />
+            <div className="flex-1 flex items-center justify-between">
+              <SearchBar placeholder="Search" />
+              <div className="flex gap-3">
+                <Button variant="outline" className="p-3">
+                  <Icons.notifications.outline />
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <div className="flex gap-3 items-center">
+                      <Avatar>
+                        <AvatarImage src="" />
+                        <AvatarFallback>Img</AvatarFallback>
+                      </Avatar>
+                      <div>User Name</div>
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuItem>Team</DropdownMenuItem>
+                    <DropdownMenuItem>Subscription</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
-          </div>
-        </header>
-        {children}
-      </SidebarInset>
-    </SidebarProvider>
+          </header>
+          {children}
+        </SidebarInset>
+      </SidebarProvider>
+    </Suspense>
   );
 }

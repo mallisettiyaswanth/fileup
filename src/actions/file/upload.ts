@@ -29,7 +29,9 @@ export const addFile = async (formData: { files: FileType[] }) => {
     formData.files.map(async (file) => {
       const upload = await uploadFileToAws(file);
       const type =
-        file.type.split("/")[0] === "image" ? "image" : file.type.split("/")[1];
+        file.type.split("/")[0] === "image"
+          ? file.type
+          : file.type.split("/")[1];
       return {
         userId: user && user?.user && user.user.id ? user.user.id : "",
         name: file.name,
