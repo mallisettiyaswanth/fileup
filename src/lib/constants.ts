@@ -37,6 +37,8 @@ import { TbDeviceUnknown } from "react-icons/tb";
 import { TbDeviceUnknownFilled } from "react-icons/tb";
 import { IoFolderOpenOutline } from "react-icons/io5";
 import { IoFolderOpen } from "react-icons/io5";
+import { BiSortAlt2 } from "react-icons/bi";
+import { MdMoreHoriz } from "react-icons/md";
 
 export const DOMAIN: string = "http://localhost:3000";
 
@@ -138,5 +140,13 @@ export const Icons: Record<
   folder: {
     outline: IoFolderOpenOutline,
     filled: IoFolderOpen,
+  },
+  sort: {
+    outline: BiSortAlt2,
+    filled: BiSortAlt2,
+  },
+  more: {
+    outline: MdMoreHoriz,
+    filled: MdMoreHoriz,
   },
 };
