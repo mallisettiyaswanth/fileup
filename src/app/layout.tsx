@@ -27,9 +27,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <Toaster />
-            {/* <QueryClientWrapper> */}
-            {children}
-            {/* </QueryClientWrapper> */}
+            <QueryClientWrapper>{children}</QueryClientWrapper>
           </ThemeProvider>
         </body>
       </html>
