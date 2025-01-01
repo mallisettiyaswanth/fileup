@@ -4,6 +4,7 @@ import SessionProviderWrapper from "@/wrappers/SessionProvider";
 import ThemeProvider from "@/wrappers/ThemeProvider";
 import { Toaster } from "sonner";
 import QueryClientWrapper from "@/wrappers/QueryClientWrapper";
+import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,6 +20,7 @@ export default function RootLayout({
     <SessionProviderWrapper>
       <html lang="en">
         <body className={`antialiased`}>
+          <NextTopLoader color="#8244ed" showSpinner={false} />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

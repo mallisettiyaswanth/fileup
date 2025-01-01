@@ -63,20 +63,21 @@ const getSidebarTab = (item: {
               {item.items?.map((subItem) => (
                 <SidebarMenuSubItem key={subItem.title}>
                   <SidebarMenuSubButton
+                    asChild
                     className={`${
                       pathName === subItem.url &&
                       "bg-primary hover:bg-primary/95 text-white hover:text-white"
                     }`}
                   >
-                    {subItem &&
-                    subItem.icon &&
-                    subItem.filledIcon &&
-                    subItem.url === pathName ? (
-                      <subItem.filledIcon />
-                    ) : (
-                      subItem.icon && <subItem.icon />
-                    )}
-                    <a href={subItem.url}>
+                    <a href={subItem.url} className="flex gap-2">
+                      {subItem &&
+                      subItem.icon &&
+                      subItem.filledIcon &&
+                      subItem.url === pathName ? (
+                        <subItem.filledIcon className="!text-white" />
+                      ) : (
+                        subItem.icon && <subItem.icon />
+                      )}
                       <span>{subItem.title}</span>
                     </a>
                   </SidebarMenuSubButton>
@@ -127,14 +128,12 @@ const getSidebarTab = (item: {
           "bg-primary hover:bg-primary/95 text-white hover:text-white"
         }`}
       >
-        <>
-          {item && item.icon && item.filledIcon && item.url === pathName ? (
-            <item.filledIcon className="text-white" />
-          ) : (
-            item.icon && <item.icon />
-          )}
-          <a href={item.url}>{item.title}</a>
-        </>
+        {item && item.icon && item.filledIcon && item.url === pathName ? (
+          <item.filledIcon className="text-white" />
+        ) : (
+          item.icon && <item.icon />
+        )}
+        <a href={item.url}>{item.title}</a>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );

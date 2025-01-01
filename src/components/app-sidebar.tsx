@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { AudioWaveform, Command, GalleryVerticalEnd } from "lucide-react";
-
 import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,

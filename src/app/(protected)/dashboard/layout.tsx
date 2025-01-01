@@ -1,6 +1,6 @@
-import CreateButton from "@/components/global/create-button";
+import CreateButton from "@/components/global/buttons/create-button";
 import Header from "@/components/global/header";
-import UploadButton from "@/components/global/upload-button";
+import UploadButton from "@/components/global/buttons/upload-button";
 import { Icons } from "@/lib/constants";
 import React from "react";
 
