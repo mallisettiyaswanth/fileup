@@ -12,7 +12,19 @@ export const getFiles = async (type: "image" | "video" | "pdf" | "json") => {
     const files = await prisma.file.findMany({
       where: {
         userId: user.user.id,
-        type,
+        type: type === "image" ? { startsWith: type } : type,
+      },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        size: true,
+        createdAt: true,
+        url: true,
+        isFavourite: true,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
     return {

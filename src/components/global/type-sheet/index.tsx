@@ -9,6 +9,11 @@ import {
 import React, { useState } from "react";
 import ZoomableImage from "../zoomable-image";
 import { Icons } from "@/lib/constants";
+import {
+  useFileDelete,
+  useMarkFileFavouriteToggle,
+} from "@/react-query/mutation";
+import { Spinner } from "../spinner";
 
 type Props = {
   file: {
@@ -16,35 +21,54 @@ type Props = {
     name: string;
     url: string;
     size: number;
+    id: string;
+    isFavourite: boolean;
   };
 };
 
 const TypeSheet = ({ file }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const { mutate: makeFileFavourite, isPending: isFileFavourting } =
+    useMarkFileFavouriteToggle();
+  const {
+    mutate: deleteFile,
+    isPending: isFileDeleting,
+    isSuccess: isFileDeleted,
+  } = useFileDelete();
+
   const sheetButtons = [
     {
       icon: Icons.download.filled,
       fn: () => {},
     },
     {
-      icon: Icons.star.outline,
-      fn: () => {},
+      icon: isFileFavourting
+        ? Spinner
+        : file.isFavourite
+        ? Icons.star.filled
+        : Icons.star.outline,
+      fn: () => makeFileFavourite(file.id),
     },
     {
-      icon: Icons.trash.filled,
-      fn: () => {},
+      icon: isFileDeleting ? Spinner : Icons.trash.filled,
+      fn: () => {
+        deleteFile(file.id);
+        if (!isFileDeleting) setSheetOpen(false);
+      },
     },
     {
       icon: Icons.share.filled,
       fn: () => {},
     },
     {
-      icon: Icons.expand.filled,
-      fn: () => setDialogOpen(true),
+      icon: Icons.archive.filled,
+      fn: () => {},
     },
   ];
+
   return (
-    <Sheet>
+    <Sheet onOpenChange={setSheetOpen} open={sheetOpen}>
       <SheetTrigger>
         <div className="bg-gray-500 h-24 w-24">{file.name}</div>
       </SheetTrigger>
@@ -61,13 +85,17 @@ const TypeSheet = ({ file }: Props) => {
         </SheetHeader>
         <div className="flex h-full flex-col gap-10">
           <div className="flex gap-3 w-full justify-around px-8">
-            {sheetButtons.map((sheetbutton) => {
+            {sheetButtons.map((sheetbutton, index: number) => {
               return (
                 <button
+                  key={index}
                   className="flex items-center justify-center p-2 border shadow-sm rounded-md hover:bg-primary/20 transition-all"
                   onClick={sheetbutton.fn}
                 >
-                  <sheetbutton.icon className="h-5 w-5 text-primary" />
+                  <sheetbutton.icon
+                    className="h-5 w-5 text-primary"
+                    color="#7c3aed"
+                  />
                 </button>
               );
             })}

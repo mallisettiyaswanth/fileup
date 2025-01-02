@@ -1,4 +1,9 @@
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DetailedHTMLProps,
   Dispatch,
@@ -26,6 +31,7 @@ export default function ZoomableImage({
         />
       </DialogTrigger>
       <DialogContent className="w-fit h-fit flex items-center justify-center  bg-transparent border-none py-10 shadow-none">
+        <DialogTitle></DialogTitle>
         <img src={img.src} alt={img.alt} className="rounded-2xl" />
       </DialogContent>
     </Dialog>

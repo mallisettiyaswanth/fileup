@@ -41,7 +41,6 @@ model User {
   isTwoFactorEnabled    Boolean                @default(false)
   TwoFactorConfirmation TwoFactorConfirmation?
   File                  File[]
-  Favourites            Favourites?
   Trash                 Trash?
   Share                 Share[]
   Folder                Folder[]
@@ -98,25 +97,13 @@ model File {
 
   userId     String
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Favourites Favourites?
+  isFavourite Boolean   @default(false)
   Trash      Trash?
   Share      Share[]
   Folder     Folder?     @relation(fields: [folderId], references: [id])
   folderId   String?
 
   @@map("files")
-}
-
-model Favourites {
-  id String @id @default(cuid())
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  fileId String @unique
-  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
-
-  @@map("favourites")
 }
 
 model Trash {

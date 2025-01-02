@@ -41,7 +41,8 @@ import { BiSortAlt2 } from "react-icons/bi";
 import { MdMoreHoriz } from "react-icons/md";
 import { IoCloudDownload } from "react-icons/io5";
 import { IoCloudDownloadOutline } from "react-icons/io5";
-import { MdOpenInFull } from "react-icons/md";
+import { MdArchive } from "react-icons/md";
+import { MdOutlineArchive } from "react-icons/md";
 import { IoMdShareAlt } from "react-icons/io";
 import { RiShareForwardLine } from "react-icons/ri";
 
@@ -74,7 +75,7 @@ export type IconKey =
   | "sort"
   | "more"
   | "download"
-  | "expand"
+  | "archive"
   | "share";
 
 export const Icons: Record<
@@ -188,9 +189,9 @@ export const Icons: Record<
     outline: IoCloudDownloadOutline,
     filled: IoCloudDownload,
   },
-  expand: {
-    outline: MdOpenInFull,
-    filled: MdOpenInFull,
+  archive: {
+    outline: MdOutlineArchive,
+    filled: MdArchive,
   },
   share: {
     outline: RiShareForwardLine,
