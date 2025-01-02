@@ -41,7 +41,7 @@ model User {
   isTwoFactorEnabled    Boolean                @default(false)
   TwoFactorConfirmation TwoFactorConfirmation?
   File                  File[]
-  Trash                 Trash?
+  Trash                 Trash[]
   Share                 Share[]
   Folder                Folder[]
 
@@ -95,25 +95,30 @@ model File {
   createdAt DateTime
   url       String
 
-  userId     String
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  isFavourite Boolean   @default(false)
-  Trash      Trash?
-  Share      Share[]
-  Folder     Folder?     @relation(fields: [folderId], references: [id])
-  folderId   String?
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isFavourite Boolean @default(false)
+  Share       Share[]
+  Folder      Folder? @relation(fields: [folderId], references: [id])
+  folderId    String?
 
   @@map("files")
 }
 
 model Trash {
-  id String @id @default(cuid())
+  id        String   @id @default(cuid())
+  name      String
+  type      String
+  size      Float
+  createdAt DateTime
+  url       String
+  versionId String
 
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isFavourite Boolean @default(false)
 
-  fileId String @unique
-  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  @@map("trash")
 }
 
 enum PERMISSION {

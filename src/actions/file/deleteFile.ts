@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/db";
-import deleteFileFromAws from "../aws/deleteObjects";
+import deleteFileFromAws from "@/actions/aws/deleteObjects";
 
 const deleteFile = async (fileId: string) => {
   try {
@@ -10,7 +10,6 @@ const deleteFile = async (fileId: string) => {
         id: fileId,
       },
     });
-    console.log(deleted);
     await deleteFileFromAws(deleted.name);
 
     return {
