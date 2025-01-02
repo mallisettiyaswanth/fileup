@@ -10,8 +10,19 @@ const deleteFile = async (fileId: string) => {
         id: fileId,
       },
     });
-    await deleteFileFromAws(deleted.name);
+    const { VersionId } = await deleteFileFromAws(deleted.name);
 
+    await prisma.trash.create({
+      data: {
+        name: deleted.name,
+        type: deleted.type,
+        size: deleted.size,
+        createdAt: deleted.createdAt,
+        url: deleted.url,
+        userId: deleted.userId,
+        versionId: VersionId,
+      },
+    });
     return {
       status: 200,
       message: "File has been deleted successfully",
