@@ -14,7 +14,7 @@ const useFileDelete = () => {
 };
 
 const useFileUpload = () => {
-  return useTanstackMutation(["upload-file"], addFile, ["user-files"]);
+  return useTanstackMutation(["upload-file"], addFile, ["user-images"]);
 };
 
 export { useMarkFileFavouriteToggle, useFileDelete, useFileUpload };

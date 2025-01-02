@@ -22,20 +22,20 @@ const useTanstackMutation = <
     mutationKey,
     mutationFn,
     onSuccess(data, variables, context) {
-      if (revalidateKey) {
+      if (revalidateKey && revalidateKey?.length > 0) {
         queryClient.invalidateQueries({
           queryKey: revalidateKey,
         });
       }
-      toast(data.message, {
-        description: "Success",
-      });
+      // toast(data.message, {
+      //   description: "Success",
+      // });
     },
     onError(error, variables, context) {
       console.error("Mutation error:", error);
     },
     onSettled(data, error, variables, context) {
-      if (revalidateKey) {
+      if (revalidateKey && revalidateKey.length > 0) {
         queryClient.refetchQueries({
           queryKey: revalidateKey,
         });

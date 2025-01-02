@@ -16,7 +16,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { FileUploader } from "@/components/file-uploader";
-import { addFile } from "@/actions/file/upload";
 import { useFileUpload } from "@/react-query/mutation";
 
 const schema = z.object({
@@ -27,12 +26,7 @@ type Schema = z.infer<typeof schema>;
 
 export function ReactHookFormDemo({ callback }: { callback?: () => void }) {
   const [loading, setLoading] = React.useState(false);
-  const {
-    mutate: uploadFile,
-    isPending: isFileUploading,
-    isSuccess: isFileUploaded,
-    isError: isFileNotUploaded,
-  } = useFileUpload();
+  const { mutateAsync: uploadFile } = useFileUpload();
 
   const form = useForm<Schema>({
     resolver: zodResolver(schema),
@@ -57,25 +51,13 @@ export function ReactHookFormDemo({ callback }: { callback?: () => void }) {
 
     Promise.all(serializedFiles)
       .then((files) => {
-        uploadFile({ files });
-        toast.promise(
-          new Promise((resolve, reject) => {
-            if (isFileUploaded) resolve(true);
-            else if (isFileNotUploaded) reject(false);
-          }),
-          {
-            loading: "Uploading files...",
-            success: () => {
-              form.reset();
-              setLoading(false);
-              return "Files uploaded";
-            },
-            error: (err) => {
-              setLoading(false);
-              return getErrorMessage(err);
-            },
-          }
-        );
+        toast.promise(uploadFile({ files }), {
+          loading: "Uploading files...",
+          success: () => {
+            return "File is Uploaded";
+          },
+          error: (err) => err,
+        });
       })
       .catch((err) => {
         console.error("File serialization failed:", err);
