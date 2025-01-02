@@ -1,7 +1,6 @@
 import {
   MutationFunction,
   MutationKey,
-  QueryClient,
   useMutation,
   UseMutationResult,
   useQueryClient,
@@ -11,7 +10,7 @@ import { toast } from "sonner";
 const useTanstackMutation = <
   TData extends { status: number; message: string },
   TVariables,
-  TError = unknown
+  TError = { message?: string }
 >(
   mutationKey: MutationKey,
   mutationFn: MutationFunction<TData, TVariables>,
@@ -23,9 +22,11 @@ const useTanstackMutation = <
     mutationKey,
     mutationFn,
     onSuccess(data, variables, context) {
-      queryClient.invalidateQueries({
-        queryKey: revalidateKey,
-      });
+      if (revalidateKey) {
+        queryClient.invalidateQueries({
+          queryKey: revalidateKey,
+        });
+      }
       toast(data.message, {
         description: "Success",
       });

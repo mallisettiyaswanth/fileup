@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { FileUploader } from "@/components/file-uploader";
 import { addFile } from "@/actions/file/upload";
+import { useFileUpload } from "@/react-query/mutation";
 
 const schema = z.object({
   images: z.array(z.instanceof(File)),
@@ -24,8 +25,14 @@ const schema = z.object({
 
 type Schema = z.infer<typeof schema>;
 
-export function ReactHookFormDemo() {
+export function ReactHookFormDemo({ callback }: { callback?: () => void }) {
   const [loading, setLoading] = React.useState(false);
+  const {
+    mutate: uploadFile,
+    isPending: isFileUploading,
+    isSuccess: isFileUploaded,
+    isError: isFileNotUploaded,
+  } = useFileUpload();
 
   const form = useForm<Schema>({
     resolver: zodResolver(schema),
@@ -50,23 +57,33 @@ export function ReactHookFormDemo() {
 
     Promise.all(serializedFiles)
       .then((files) => {
-        toast.promise(addFile({ files }), {
-          loading: "Uploading files...",
-          success: () => {
-            form.reset();
-            setLoading(false);
-            return "Files uploaded";
-          },
-          error: (err) => {
-            setLoading(false);
-            return getErrorMessage(err);
-          },
-        });
+        uploadFile({ files });
+        toast.promise(
+          new Promise((resolve, reject) => {
+            if (isFileUploaded) resolve(true);
+            else if (isFileNotUploaded) reject(false);
+          }),
+          {
+            loading: "Uploading files...",
+            success: () => {
+              form.reset();
+              setLoading(false);
+              return "Files uploaded";
+            },
+            error: (err) => {
+              setLoading(false);
+              return getErrorMessage(err);
+            },
+          }
+        );
       })
       .catch((err) => {
         console.error("File serialization failed:", err);
         toast.error("Failed to serialize files");
         setLoading(false);
+      })
+      .finally(() => {
+        if (callback) callback();
       });
   }
 
