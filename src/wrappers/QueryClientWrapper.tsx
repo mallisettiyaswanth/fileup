@@ -14,7 +14,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const QueryClientWrapper = async ({ children }: Props) => {
+const QueryClientWrapper = ({ children }: Props) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}

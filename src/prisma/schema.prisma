@@ -40,9 +40,8 @@ model User {
   createdAt             DateTime               @default(now())
   isTwoFactorEnabled    Boolean                @default(false)
   TwoFactorConfirmation TwoFactorConfirmation?
-  File                  File?
-  Favourites            Favourites?
-  Trash                 Trash?
+  File                  File[]
+  Trash                 Trash[]
   Share                 Share[]
   Folder                Folder[]
 
@@ -88,52 +87,38 @@ model TwoFactorConfirmation {
   @@map("twofactortokens")
 }
 
-enum FILE_TYPE {
-  IMAGE
-  VIDEO
-  DOCUMENT
-  AUDIO
-  OTHER
-}
-
 model File {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
   name      String
-  type      FILE_TYPE
+  type      String
   size      Float
   createdAt DateTime
+  url       String
 
-  userId     String      @unique
-  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Favourites Favourites?
-  Trash      Trash?
-  Share      Share[]
-  Folder     Folder?     @relation(fields: [folderId], references: [id])
-  folderId   String?
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isFavourite Boolean @default(false)
+  Share       Share[]
+  Folder      Folder? @relation(fields: [folderId], references: [id])
+  folderId    String?
 
   @@map("files")
 }
 
-model Favourites {
-  id String @id @default(cuid())
-
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  fileId String @unique
-  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
-
-  @@map("favourites")
-}
-
 model Trash {
-  id String @id @default(cuid())
+  id        String   @id @default(cuid())
+  name      String
+  type      String
+  size      Float
+  createdAt DateTime
+  url       String
+  versionId String
 
-  userId String @unique
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  isFavourite Boolean @default(false)
 
-  fileId String @unique
-  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  @@map("trash")
 }
 
 enum PERMISSION {
@@ -157,7 +142,7 @@ model Folder {
   id        String   @id @default(cuid())
   name      String
   createdAt DateTime @default(now())
-  parentId  String? 
+  parentId  String?
   parent    Folder?  @relation("FolderToFolder", fields: [parentId], references: [id])
   children  Folder[] @relation("FolderToFolder")
   files     File[]
