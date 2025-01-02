@@ -20,10 +20,16 @@ export default function RootLayout({
     <SessionProviderWrapper>
       <html lang="en">
         <body className={`antialiased`}>
-          <NextTopLoader color="#8244ed" showSpinner={false} />
+          <NextTopLoader
+            color="#8244ed"
+            showSpinner={false}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+            template='<div class="backdrop-overlay"></div><div class="bar" role="bar"><div class="peg"></div></div> 
+  <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+          />
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="light"
             disableTransitionOnChange
           >
             <Toaster />
