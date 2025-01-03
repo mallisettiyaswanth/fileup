@@ -6,7 +6,7 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import ZoomableImage from "../zoomable-image";
 import { Icons } from "@/lib/constants";
 import {
@@ -14,6 +14,9 @@ import {
   useMarkFileFavouriteToggle,
 } from "@/react-query/mutation";
 import { Spinner } from "../spinner";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 
 type Props = {
   file: {
@@ -24,9 +27,11 @@ type Props = {
     id: string;
     isFavourite: boolean;
   };
+  isSelected: boolean;
+  setSelectedIds: Dispatch<SetStateAction<string[]>>;
 };
 
-const TypeSheet = ({ file }: Props) => {
+const TypeSheet = ({ file, isSelected, setSelectedIds }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(false);
   const { mutate: makeFileFavourite, isPending: isFileFavourting } =
@@ -69,9 +74,46 @@ const TypeSheet = ({ file }: Props) => {
 
   return (
     <Sheet onOpenChange={setSheetOpen} open={sheetOpen}>
-      <SheetTrigger>
-        <div className="bg-gray-500 h-24 w-24">{file.name}</div>
-      </SheetTrigger>
+      <div className="flex flex-col gap-1">
+        <div
+          className={cn(
+            "h-32 overflow-hidden rounded-md relative group border-2 ",
+            isSelected && "border-primary"
+          )}
+        >
+          <img
+            src={file.url}
+            alt={file.name}
+            className="object-contain w-full h-32"
+          />
+          <div
+            className={cn(
+              "bg-black bg-opacity-20 w-full h-full absolute top-0 left-0 z-10 opacity-100 group-hover:opacity-100 transition-opacity duration-300 p-3",
+              isSelected ? "" : "opacity-0 group-hover:opacity-100"
+            )}
+          >
+            <div className="w-full">
+              <Checkbox
+                checked={isSelected}
+                onCheckedChange={() =>
+                  setSelectedIds((prev: string[]) =>
+                    prev.includes(file.id)
+                      ? prev.filter((id) => id !== file.id)
+                      : [...prev, file.id]
+                  )
+                }
+              />
+            </div>
+            <SheetTrigger>
+              <Button variant="outline">Preview</Button>
+            </SheetTrigger>
+          </div>
+        </div>
+
+        <div className="text-gray-400 truncate text-sm text-start px-3">
+          <span className="w-2/3">{file.name}</span>
+        </div>
+      </div>
       <SheetContent className="w-[400px] sm:w-[540px] py-10 flex flex-col gap-5">
         <SheetHeader>
           <ZoomableImage
