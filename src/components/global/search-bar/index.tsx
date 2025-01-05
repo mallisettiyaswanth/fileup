@@ -12,7 +12,7 @@ const SearchBar = ({ placeholder, className }: Props) => {
   return (
     <div
       className={cn(
-        "border rounded-lg flex items-center px-3 hover:border-2 focus-within:border-2 hover:border-primary focus-within:border-primary transition-colors shadow-sm bg-white",
+        "border rounded-lg flex items-center px-3 hover:border-2 focus-within:border-2 hover:border-primary focus-within:border-primary transition-colors shadow-sm bg-white h-fit",
         className
       )}
     >

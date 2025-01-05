@@ -9,25 +9,42 @@ import EmptyState from "../empty";
 import UploadButton from "@/components/global/buttons/upload-button";
 import SearchBar from "@/components/global/search-bar";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Bold, Italic, Underline } from "lucide-react";
+import { Italic, Underline } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useBulkDelete, useFileDelete } from "@/react-query/mutation";
+import { toast } from "sonner";
+import { Spinner } from "@/components/global/spinner";
 
 type Props = {};
 
 const Images = (props: Props) => {
-  const { data: files, isLoading, isError, refetch } = useGetImages();
+  const { data: files, isLoading, isError } = useGetImages();
   const [view, setView] = useState<"grid" | "table">("grid");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const { mutateAsync: deleteBulkFiles, isPending: deletingFiles } =
+    useBulkDelete();
 
   const handleSelectAll = () => {
     if (selectedIds.length === files?.data.length) {
-      // If all files are selected, deselect them
       setSelectedIds([]);
     } else {
-      // Otherwise, select all files
-      setSelectedIds(files?.data.map((file) => file.id));
+      setSelectedIds(() => files?.data.map((file) => file.id) || []);
     }
+  };
+
+  const handleDeleteBulkFiles = () => {
+    toast.promise(deleteBulkFiles(selectedIds), {
+      loading: "Files deleting...",
+      success: (body) => {
+        setDeleteDialog(false);
+        setSelectedIds([]);
+        return body.message;
+      },
+      error: (err) => err.message,
+    });
   };
 
   if (isLoading) {
@@ -53,21 +70,56 @@ const Images = (props: Props) => {
         <div className="flex justify-between">
           <div className="flex gap-3 h-full items-center">
             <SearchBar placeholder="Search Images" />
-            {files?.data.length > 0 && (
+            {
               <>
                 <Checkbox
-                  checked={selectedIds.length === files?.data.length}
+                  checked={
+                    selectedIds.length !== 0 &&
+                    selectedIds.length === files?.data.length
+                  }
                   onCheckedChange={handleSelectAll}
                 />
                 <div>Select all</div>
               </>
-            )}
+            }
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 items-end">
             {selectedIds.length > 0 && (
-              <Button variant="destructive" className="h-full">
-                Delete
-              </Button>
+              <Dialog open={deleteDialog} onOpenChange={setDeleteDialog}>
+                <DialogTrigger>
+                  <Button variant="outline">Delete</Button>
+                </DialogTrigger>
+                <DialogContent className="flex flex-col gap-5 p-5">
+                  <div className="flex flex-col gap-1">
+                    <h1 className="text-xl">
+                      Are you sure to delete{" "}
+                      {selectedIds.length > 1
+                        ? selectedIds.length + " files "
+                        : selectedIds.length + " file "}
+                      ?
+                    </h1>
+                    <span className="text-sm text-gray-500">
+                      You can even restore the files from the trash, after you
+                      delete.
+                    </span>
+                  </div>
+                  <div className="flex gap-3 w-full items-end justify-end">
+                    <Button
+                      variant="outline"
+                      onClick={() => setDeleteDialog(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={handleDeleteBulkFiles}
+                      disabled={deletingFiles}
+                    >
+                      {deletingFiles ? <Spinner /> : "Delete"}
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             )}
 
             <ToggleGroup
@@ -76,10 +128,10 @@ const Images = (props: Props) => {
               onValueChange={(value: "grid" | "table") => setView(value)}
             >
               <ToggleGroupItem value="grid" aria-label="Toggle italic">
-                <Italic className="h-4 w-4" />
+                <Italic className="h-3 w-3" />
               </ToggleGroupItem>
               <ToggleGroupItem value="table" aria-label="Toggle strikethrough">
-                <Underline className="h-4 w-4" />
+                <Underline className="h-3 w-3" />
               </ToggleGroupItem>
             </ToggleGroup>
           </div>

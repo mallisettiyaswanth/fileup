@@ -17,6 +17,7 @@ import { Spinner } from "../spinner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 type Props = {
   file: {
@@ -36,11 +37,8 @@ const TypeSheet = ({ file, isSelected, setSelectedIds }: Props) => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const { mutate: makeFileFavourite, isPending: isFileFavourting } =
     useMarkFileFavouriteToggle();
-  const {
-    mutate: deleteFile,
-    isPending: isFileDeleting,
-    isSuccess: isFileDeleted,
-  } = useFileDelete();
+  const { mutateAsync: deleteFile, isPending: isFileDeleting } =
+    useFileDelete();
 
   const sheetButtons = [
     {
@@ -72,6 +70,13 @@ const TypeSheet = ({ file, isSelected, setSelectedIds }: Props) => {
     },
   ];
 
+  const handleDeleteFile = () => {
+    toast.promise(deleteFile(file.id), {
+      loading: "File is deleting...",
+      success: "File is deleted.",
+    });
+  };
+
   return (
     <Sheet onOpenChange={setSheetOpen} open={sheetOpen}>
       <div className="flex flex-col gap-1">
@@ -88,11 +93,11 @@ const TypeSheet = ({ file, isSelected, setSelectedIds }: Props) => {
           />
           <div
             className={cn(
-              "bg-black bg-opacity-20 w-full h-full absolute top-0 left-0 z-10 opacity-100 group-hover:opacity-100 transition-opacity duration-300 p-3",
+              "bg-black bg-opacity-20 w-full h-full absolute top-0 left-0 z-10 opacity-100 group-hover:opacity-100 transition-opacity duration-300 p-3 flex flex-col",
               isSelected ? "" : "opacity-0 group-hover:opacity-100"
             )}
           >
-            <div className="w-full">
+            <div className="w-full flex items-center justify-between">
               <Checkbox
                 checked={isSelected}
                 onCheckedChange={() =>
@@ -103,10 +108,15 @@ const TypeSheet = ({ file, isSelected, setSelectedIds }: Props) => {
                   )
                 }
               />
+              <Button variant="ghost" onClick={handleDeleteFile}>
+                <Icons.trash.filled />
+              </Button>
             </div>
-            <SheetTrigger>
-              <Button variant="outline">Preview</Button>
-            </SheetTrigger>
+            <div className="flex-1 flex items-center justify-center">
+              <SheetTrigger className="">
+                <Button variant="outline">Preview</Button>
+              </SheetTrigger>
+            </div>
           </div>
         </div>
 

@@ -15,4 +15,4 @@ const useTanstackQuery = <TData>(
   });
 };
 
-export default useTanstackQuery;
+export default useTanstackQuery;  

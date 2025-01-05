@@ -46,7 +46,7 @@ export default async function Layout({
         <SidebarProvider>
           <AppSidebar />
           <SidebarInset>
-            <header className="flex h-14 shrink-0 items-center gap-2 px-4 border sticky top-0 backdrop-blur-sm">
+            <header className="flex h-14 shrink-0 items-center gap-2 px-4 border sticky top-0 backdrop-blur-sm z-50">
               <SidebarTrigger className="-ml-1" />
               <div className="flex-1 flex items-center justify-between">
                 <SearchBar placeholder="Search" />
